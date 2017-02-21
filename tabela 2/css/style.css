@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+
+th{
+	background-color: #b33c00;
+}
+
+#ativos{
+	cursor: pointer;
+}
+
+#inativos{
+	cursor: pointer;
+}
+
+.tamanhodaimagem {
+	background-image: url("../img/frutasfundo.png"); 
+	background-size: cover;
+}
+
+.image{
+	background-size: content;
+}
+
+.letra {
+	color: black;
+	font-size: 18px;
+}
+
+.margemlista{
+	height: 50px;
+	width: 60%;
+	margin: 0 auto;	
+}
+
+.margemlista h2{
+	font-size: 30px;
+	font-family: 'Quicksand', sans-serif;
+	text-align: center;
+}
+
+.margem {
+	margin-top: 50px;
+	font-family: 'Quicksand', sans-serif;
+	color: black;
+}
+
+.tamanhodaimagem {
+	width: 100%;
+	margin: 0 auto;
+}
+
+body  {
+	background-image: url("../img/woodfundo.jpg"); 
+	background-size: 100%;
+
+}
+
+#form1 p{
+	color: black;
+	font-size: 16px;
+}
+.container {
+	color: black;
+	width: 80%;
+	height: 80%;
+}
+
+.modal-content{
+	color: black;
+}
+
+.navbar-fixed-top{
+	width: 100%;
+	margin: 0 auto;
+}
