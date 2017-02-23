@@ -4,6 +4,11 @@ th{
 	background-color: #b33c00;
 }
 
+.dropdown{
+	font-family: 'Quicksand', sans-serif;
+	font-size: 20px;
+
+}
 #ativos{
 	cursor: pointer;
 }
@@ -14,8 +19,10 @@ th{
 
 .tamanhodaimagem {
 	background-image: url("../img/frutasfundo.png"); 
-	background-size: cover;
+	background: cover;
+	margin: 0 auto;
 }
+
 
 .image{
 	background-size: content;
@@ -44,14 +51,11 @@ th{
 	color: black;
 }
 
-.tamanhodaimagem {
-	width: 100%;
-	margin: 0 auto;
-}
 
 body  {
 	background-image: url("../img/woodfundo.jpg"); 
 	background-size: 100%;
+	background-attachment: fixed;
 
 }
 
@@ -72,4 +76,18 @@ body  {
 .navbar-fixed-top{
 	width: 100%;
 	margin: 0 auto;
+}
+
+.col-xs-5{
+	width: 40%;
+	margin: 0 auto;
+
+}
+
+.modal-header h4{
+	font-family: 'Quicksand', sans-serif;
+}
+
+.navbar-brand{
+	font-family: 'Quicksand', sans-serif;
 }
