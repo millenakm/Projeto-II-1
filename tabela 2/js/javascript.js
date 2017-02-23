@@ -37,12 +37,12 @@ function tudo(){
 
 $(document).ready(function(){
 	tudo();
-	$("#estoque").keypress(verificaNumero);
-	$("#nome").keypress(teste);
-	$("#valor").keypress(numeros);
+	$("#estoque").keypress(verificaNumeroEstoque);
+	$("#nome").keypress(Bloqueianumeros);
+	$("#valor").keypress(verificaNumerosValor);
 
 	$("#valor").maskMoney({decimal:".", thousands:"", precision: 2 });
-	
+
 	$("#deletinho").click(function(){
 		del();
 	});
@@ -95,6 +95,8 @@ $(document).ready(function(){
 
 	$('#editaron').click(function(){
         salvar();
+        if(Nome=="" || Valor=="" || Estoque==""){
+		}else{
         $.ajax({
             url : server+ muda,
             type : 'PUT',
@@ -108,6 +110,7 @@ $(document).ready(function(){
                 $('#editaron').html(data);
             }
         });
+       }
     });
 
   
@@ -155,6 +158,14 @@ editar = function(o){
 	$("#confirmar").hide();
 	$("#editaron").show();
 	$("#deletinho").hide();
+	$("#nome").show();
+	$('label[for="nome"]').show();
+	$("#valorzinho").show();
+	$('label[for="valor"]').show();
+	$("#status").show();
+	$('label[for="status"]').show();
+	$("#estoque").show();
+	$('label[for="estoque"]').show();
 	alteranome = 1;
 	titulo();
     document.getElementById('nome').value = dados[o].nome;
@@ -173,30 +184,27 @@ editar = function(o){
 
 function titulo(){
 	if(alteranome==0){
-		 document.getElementById('titulo').innerHTML = "  Adicione Itens";
+		 document.getElementById('titulo').innerHTML = "  Adicionar Itens";
 	}else if(alteranome==1){
-		document.getElementById('titulo').innerHTML = "  Edite Itens";
+		document.getElementById('titulo').innerHTML = "  Editar Itens";
 	}else{
 		document.getElementById('titulo').innerHTML = "  Tem certeza que quer deletar?";
 	}
 }
 
-function verificaNumero(e) {
+function verificaNumeroEstoque(e) {
     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
          return false;
     }
 }
 
-function numeros(e){
+function verificaNumerosValor(e){
 	if ((e.which != 8 && e.which != 0 && (e.which < 46 || e.which > 57)) || e.which ==47) {
          return false;
     }
 }
 
-
-
-
-function teste(e){
+function Bloqueianumeros(e){
 	var expressao;
 	expressao = /[0-9,.!@#$%¨&*(){};:\/ºª+=_]/;
 		if(expressao.test(String.fromCharCode(e.keyCode)))
@@ -208,6 +216,7 @@ function teste(e){
 			return true;
 		}
 }
+
 
   
    
