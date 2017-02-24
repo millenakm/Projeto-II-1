@@ -1,7 +1,14 @@
 body{
 	
-	background-image: url("../img/woodfundo.jpg"); 
-	background-size: 100%;
+	background-image: url("../img/supermercado.jpg");
+	background-repeat: none;
 	background-attachment: fixed;
+	background-size: 100% auto;
 
+}
+
+.navbar-right{
+	font-family: 'Quicksand', sans-serif;
+	font-size: 20px;
+}
 }

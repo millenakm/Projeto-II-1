@@ -20,13 +20,6 @@ th{
 	font-size: 20px;
 }
 
-.tamanhodaimagem {
-	background-image: url("../img/frutasfundo.png"); 
-	background: cover;
-	margin: 0 auto;
-}
-
-
 .image{
 	background-size: content;
 }
@@ -90,6 +83,7 @@ body  {
 
 .navbar-brand{
 	font-family: 'Quicksand', sans-serif;
+	font-size: 20px;
 }
 .dropdown-menu li{
 	
