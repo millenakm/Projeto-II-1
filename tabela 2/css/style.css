@@ -60,13 +60,8 @@ body  {
 	background-image: url("../img/woodfundo.jpg"); 
 	background-size: 100%;
 	background-attachment: fixed;
-
 }
 
-#form1 p{
-	color: black;
-	font-size: 16px;
-}
 .container {
 	color: black;
 	width: 80%;
@@ -108,4 +103,9 @@ input{
 .form-group p {
 margin-top: 2%;
 font-family: 'Quicksand', sans-serif;
+}
+
+#alertconcluido {
+
+	margin-top: 2%;
 }

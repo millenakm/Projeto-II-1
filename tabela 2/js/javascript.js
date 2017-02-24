@@ -36,13 +36,26 @@ function tudo(){
 
 }
 
+function Login(){
+var done=0;
+var username=document.login.username.value;
+username=username.toLowerCase();
+var password=document.login.password.value;
+password=password.toLowerCase();
+if (username=="bianca" && password=="senha") { window.location="file:///D:/Github/Projeto-II/tabela%202/mercadodobruno2.html"; done=1; }
+if (username=="outro" && password=="outrosenha") { window.location="file:///D:/Github/Projeto-II/tabela%202/mercadodobruno2.html"; done=1; }
+if (username=="outro" && password=="outrasenha") { window.location="file:///D:/Github/Projeto-II/tabela%202/mercadodobruno2.html"; done=1; }
+if (done==0) { alert("Senha ou Usuário inválido."); }
+}
+
 $(document).ready(function(){
+	$("#alertconcluido").hide();
 	tudo();
 	$("#estoque").keypress(verificaNumeroEstoque);
 	$("#nome").keypress(Bloqueianumeros);
 	$("#valor").keypress(verificaNumerosValor);
 
-	$("#valor").maskMoney({decimal:".", thousands:"", precision: 2 });
+	$("#valor").maskMoney({decimal:".", thousands:"", million:"."});
 
 	$("#deletinho").click(function(){
 		del();
@@ -86,7 +99,7 @@ $(document).ready(function(){
 			}, 2000);
 		}else{
 			for(var i=0;i<dados.length;i++){
-				if(dados[i].nome==Nome){naorepete=1;}
+				if(dados[i].nome.toLowerCase()===Nome.toLowerCase()){naorepete=1;}
 			}
 			nomeIgual();
     	}
@@ -107,6 +120,13 @@ $(document).ready(function(){
 		            
 		        });
 		        $('#myModal').modal('hide');
+		        $("#alertconcluido").show();
+			window.setTimeout(function() {
+    		$(".alert").slideUp(500, function(){
+        	$(this).hide(); 
+    		});
+			}, 2000);
+
 			}else{
 
 			$("#alertnaorepete").show();
