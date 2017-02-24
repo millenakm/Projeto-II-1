@@ -1,7 +1,8 @@
-var server="http://192.168.1.168:3000/product/";
+var server="http://localhost:3000/product/";
 var dados, j;
 var troca=0;
 var dele=0;
+var naorepete=0;
 
 function salvar (){
 	Nome =  $('#nome').val();
@@ -68,34 +69,65 @@ $(document).ready(function(){
 		$.ajax({
 		type: 'DELETE',
 		url: server+ dele,
+		success: tudo
 		});
-		tudo();
-
+		$('#myModal').modal('hide');
+	
 	}
 
 	$('#confirmar').click(function(){
 		salvar();
 		if(Nome=="" || Valor=="" || Estoque==""){
+			$("#alertcampovazio").show();
+			window.setTimeout(function() {
+    		$(".alert").slideUp(500, function(){
+        	$(this).hide(); 
+    		});
+			}, 2000);
 		}else{
-        $.ajax({
-            url : server,
-            type : 'POST',
-            data : {
-            	nome: Nome,
-            	valor: Valor,
-            	estoque: Estoque,
-            	status: Status
-            },
-				success: function(data){
-                $('#confirmar').html(data);
-            }
-        });
-    }
+			for(var i=0;i<dados.length;i++){
+				if(dados[i].nome==Nome){naorepete=1;}
+			}
+			nomeIgual();
+    	}
     });
+
+    nomeIgual = function(){
+    		if(naorepete==0){
+		        $.ajax({
+		            url : server,
+		            type : 'POST',
+		            data : {
+		            	nome: Nome,
+		            	valor: Valor,
+		            	estoque: Estoque,
+		            	status: Status
+		            },
+						success: tudo
+		            
+		        });
+		        $('#myModal').modal('hide');
+			}else{
+
+			$("#alertnaorepete").show();
+			window.setTimeout(function() {
+    		$(".alert").slideUp(500, function(){
+        	$(this).hide(); 
+    		});
+			}, 2000);
+			naorepete=0;
+			}
+    }
 
 	$('#editaron').click(function(){
         salvar();
         if(Nome=="" || Valor=="" || Estoque==""){
+        	$("#alertcampovazio").show();
+			window.setTimeout(function() {
+    		$(".alert").slideUp(500, function(){
+        	$(this).hide(); 
+    		});
+			}, 2000);
 		}else{
         $.ajax({
             url : server+ muda,
@@ -106,20 +138,21 @@ $(document).ready(function(){
             	estoque: Estoque,
             	status: Status
             },
-				success: function(data){
-                $('#editaron').html(data);
-            }
+				success: tudo
         });
+        $('#myModal').modal('hide');
        }
     });
 
-  
 
 	$("#myBtn").click(function(){
+		$("#alertcampovazio").hide();
+		$("#alertnaorepete").hide();
         $("#myModal").modal();
         $("#editaron").hide();
 		$("#deletinho").hide();
 		$("#confirmar").show();
+		$("#cancela").show();
 		$("#nome").show();
 		$('label[for="nome"]').show();
 		$("#valorzinho").show();
@@ -141,6 +174,10 @@ $(document).ready(function(){
 		$("#confirmar").hide();
 		$("#editaron").hide();
 		$("#deletinho").show();
+		$("#mensagem").hide();
+		$("#alertcampovazio").hide();
+		$("#alertnaorepete").hide();
+		$("#cancela").hide();
 		$("#nome").hide();
 		$('label[for="nome"]').hide();
 		$("#valorzinho").hide();
@@ -158,6 +195,9 @@ editar = function(o){
 	$("#confirmar").hide();
 	$("#editaron").show();
 	$("#deletinho").hide();
+	$("#cancela").show();
+	$("#alertcampovazio").hide();
+	$("#alertnaorepete").hide();
 	$("#nome").show();
 	$('label[for="nome"]').show();
 	$("#valorzinho").show();
@@ -193,7 +233,7 @@ function titulo(){
 }
 
 function verificaNumeroEstoque(e) {
-    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+    if ((e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) || e.which ==32 )   {
          return false;
     }
 }
@@ -205,24 +245,7 @@ function verificaNumerosValor(e){
 }
 
 function Bloqueianumeros(e){
-	var expressao;
-	expressao = /[0-9,.!@#$%¨&*(){};:\/ºª+=_]/;
-		if(expressao.test(String.fromCharCode(e.keyCode)))
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+	if ((e.which != 8 && e.which != 0 && (e.which < 94 || e.which > 126)) || (e.which>=123 && e.which<=125) || e.which==95) {
+         return false;
+    }
 }
-
-
-  
-   
-         
-
-     
-
-
-

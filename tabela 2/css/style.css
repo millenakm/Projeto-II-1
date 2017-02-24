@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Quicksand');
+/*@import "compass/css3";*/
 
 th{
 	background-color: #b33c00;
@@ -11,10 +12,12 @@ th{
 }
 #ativos{
 	cursor: pointer;
+	font-size: 20px;
 }
 
 #inativos{
 	cursor: pointer;
+	font-size: 20px;
 }
 
 .tamanhodaimagem {
@@ -92,4 +95,17 @@ body  {
 
 .navbar-brand{
 	font-family: 'Quicksand', sans-serif;
+}
+.dropdown-menu li{
+	
+	font-size: 20px;
+}
+
+input{
+    text-transform:capitalize;
+}
+
+.form-group p {
+margin-top: 2%;
+font-family: 'Quicksand', sans-serif;
 }
