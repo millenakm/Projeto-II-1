@@ -1,9 +1,9 @@
 body{
 	
-	background-image: url("../img/supermercado.jpg");
+	background-image: url("../img/frutasfundo.png");
 	background-repeat: none;
 	background-attachment: fixed;
-	background-size: 100% auto;
+	background-size: cover;
 
 }
 
@@ -11,4 +11,19 @@ body{
 	font-family: 'Quicksand', sans-serif;
 	font-size: 20px;
 }
+
+.bv{
+margin:0 auto;
+border-radius: 10px;
+width: 70%;
+height: 150px;
+color: white;
+text-align: center;
+margin-top: 220px;
+font-family: 'Quicksand', sans-serif;
+background: rgba(0, 0, 0, 1.0)
+}
+
+.bv h1{
+	font-size: 120px;
 }
