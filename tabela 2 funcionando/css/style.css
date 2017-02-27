@@ -88,6 +88,12 @@ body  {
 .modal-header h4{
 	font-family: 'Quicksand', sans-serif;
 	font-size: 30px;
+	padding:35px 50px;
+
+}
+
+.modal-body{
+	padding:20px 20px;
 }
 
 .navbar-brand{
@@ -138,6 +144,7 @@ margin-top: 2%;
 	margin-top: 20px;
 	font-family: 'Quicksand', sans-serif;
 	font-size: 25px;
+
 }
 
 .loginusuario{
@@ -147,6 +154,13 @@ margin-top: 2%;
 }
 
 .loginsenha{
-		font-size: 20px; 
+	font-size: 20px; 
 	font-family: 'Quicksand', sans-serif;
 }
+
+/*.avatar{
+	width: 1px; 
+	height: 1px; 
+	text-align: left;
+	border-radius: 50%;
+}*/

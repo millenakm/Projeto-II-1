@@ -11,44 +11,6 @@ function salvar (){
 	Estoque = $('#estoque').val();
 	Status = $('#status').val();
 }
-
-function tudo(){
-	$('#tabelalinda').empty(); //Limpando a tabela
-    $.get(server, function(data) {
-        dados=data;
-        for(var i=0;i<dados.length;i++){
-        	j= dados[i].id;
-        	var n = dados[i].valor.toString();
-        	n = parseFloat(n).toFixed(2)
-        	n = n.replace(".", ",");
-        	if (troca==0) {
-        		if(dados[i].status == "A"){
-        		$('#tabelalinda').append('<tr><td>'+dados[i].id+'</td><td>'+dados[i].nome+'</td><td>'+'R$ '+n+' '+'</td><td>'+'<span class="glyphicon glyphicon-thumbs-up"></span>'+'</td><td>'+dados[i].estoque+'</td><td>'+'<button type="button" onclick= "editar('+i+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button" onclick= "deleta('+j+') " data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>');
-        	}  
-        	
-        	}
-        	else{
-        		if(dados[i].status == "I"){
-        			$('#tabelalinda').append('<tr><td>'+dados[i].id+'</td><td>'+dados[i].nome+'</td><td>'+'R$ '+n+' '+'</td><td>'+'<span class="glyphicon glyphicon-thumbs-down"></span>'+'</td><td>'+dados[i].estoque+'</td><td>'+'<button type="button" onclick= "editar('+i+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button"  onclick= "deleta('+j+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>');
-        		}
-        	}  
-        }
-    });
-
-}
-
-function Login(){
-var done=0;
-var username=document.login.username.value;
-username=username.toLowerCase();
-var password=document.login.password.value;
-password=password.toLowerCase();
-if (username=="bianca" && password=="senha") { window.location="file:///D:/Github/Projeto-II/tabela%202%20funcionando/mercadodobruno2.html"; done=1; }
-if (username=="outro" && password=="outrosenha") { window.location="file:///D:/Github/Projeto-II/tabela%202%20funcionando/mercadodobruno2.html"; done=1; }
-if (username=="outro" && password=="outrasenha") { window.location="file:///D:/Github/Projeto-II/tabela%202%20funcionando/mercadodobruno2.html"; done=1; }
-if (done==0) { alert("Senha ou Usuário inválido."); }
-}
-
 $(document).ready(function(){
 	$("#alertconcluido").hide();
 	$("#alerteditado").hide();
@@ -61,13 +23,12 @@ $(document).ready(function(){
 		Login();
 	});
 
-
-	$("#valor").maskMoney({decimal:".", thousands:"", million:"."});
+	$("#valor").maskMoney({decimal:".", thousands:"", million:"."
+	});
 
 	$("#deletinho").click(function(){
 		del();
 	});
-
 
     $("#inativos").click(function(){
     	troca = 400;
@@ -78,7 +39,6 @@ $(document).ready(function(){
     	troca = 0;
 		tudo();
 	});
-
 
      $("#myBtn").click(function(){
     	alteranome = 0;
@@ -176,8 +136,7 @@ $(document).ready(function(){
 			}, 2000);
        }
     });
-
-
+    
 	$("#myBtn").click(function(){
 		$("#alertcampovazio").hide();
 		$("#alertnaorepete").hide();
@@ -186,41 +145,62 @@ $(document).ready(function(){
 		$("#deletinho").hide();
 		$("#confirmar").show();
 		$("#cancela").show();
-		$("#nome").show();
-		$('label[for="nome"]').show();
-		$("#valorzinho").show();
-		$('label[for="valor"]').show();
-		$("#status").show();
-		$('label[for="status"]').show();
-		$("#estoque").show();
-		$('label[for="estoque"]').show();
+		$("#textboxs").show();
 		limparcampo();
 
     });
 
 });
 
+function tudo(){
+	$('#tabelalinda').empty(); //Limpando a tabela
+    $.get(server, function(data) {
+        dados=data;
+        for(var i=0;i<dados.length;i++){
+        	j= dados[i].id;
+        	var n = dados[i].valor.toString();
+        	n = parseFloat(n).toFixed(2)
+        	n = n.replace(".", ",");
+        	if (troca==0) {
+        		if(dados[i].status == "A"){
+        		$('#tabelalinda').append('<tr><td>'+dados[i].id+'</td><td>'+dados[i].nome+'</td><td>'+'R$ '+n+' '+'</td><td>'+'<span class="glyphicon glyphicon-thumbs-up"></span>'+'</td><td>'+dados[i].estoque+'</td><td>'+'<button type="button" onclick= "editar('+i+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button" onclick= "deleta('+j+') " data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>');
+        	}  
+        	
+        	}
+        	else{
+        		if(dados[i].status == "I"){
+        			$('#tabelalinda').append('<tr><td>'+dados[i].id+'</td><td>'+dados[i].nome+'</td><td>'+'R$ '+n+' '+'</td><td>'+'<span class="glyphicon glyphicon-thumbs-down"></span>'+'</td><td>'+dados[i].estoque+'</td><td>'+'<button type="button" onclick= "editar('+i+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button"  onclick= "deleta('+j+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>');
+        		}
+        	}  
+        }
+    });
+}
+
+function Login(){
+var done=0;
+var username=document.login.username.value;
+username=username.toLowerCase();
+var password=document.login.password.value;
+password=password.toLowerCase();
+if (username=="bianca" && password=="senha") { window.location="file:///D:/Github/Projeto-II/tabela%202%20funcionando/mercadodobruno2.html"; done=1; }
+if (username=="outro" && password=="outrosenha") { window.location="file:///D:/Github/Projeto-II/tabela%202%20funcionando/mercadodobruno2.html"; done=1; }
+if (username=="outro" && password=="outrasenha") { window.location="file:///D:/Github/Projeto-II/tabela%202%20funcionando/mercadodobruno2.html"; done=1; }
+if (done==0) { alert("Senha ou Usuário inválido."); }
+}
 
 
-	deleta = function (v){
-		dele = v;
-		$("#confirmar").hide();
-		$("#editaron").hide();
-		$("#deletinho").show();
-		$("#mensagem").hide();
-		$("#alertcampovazio").hide();
-		$("#alertnaorepete").hide();
-		$("#cancela").hide();
-		$("#nome").hide();
-		$('label[for="nome"]').hide();
-		$("#valorzinho").hide();
-		$('label[for="valor"]').hide();
-		$("#status").hide();
-		$('label[for="status"]').hide();
-		$("#estoque").hide();
-		$('label[for="estoque"]').hide();
-		alteranome = 2;
-		titulo();
+deleta = function (v){
+	dele = v;
+	$("#confirmar").hide();
+	$("#editaron").hide();
+	$("#deletinho").show();
+	$("#mensagem").hide();
+	$("#alertcampovazio").hide();
+	$("#alertnaorepete").hide();
+	$("#cancela").hide();
+	$("#textboxs").hide();
+	alteranome = 2;
+	titulo();
 	}
 
 
@@ -231,14 +211,7 @@ editar = function(o){
 	$("#cancela").show();
 	$("#alertcampovazio").hide();
 	$("#alertnaorepete").hide();
-	$("#nome").show();
-	$('label[for="nome"]').show();
-	$("#valorzinho").show();
-	$('label[for="valor"]').show();
-	$("#status").show();
-	$('label[for="status"]').show();
-	$("#estoque").show();
-	$('label[for="estoque"]').show();
+	$("#textboxs").show();
 	alteranome = 1;
 	titulo();
     document.getElementById('nome').value = dados[o].nome;
@@ -248,7 +221,7 @@ editar = function(o){
     muda = dados[o].id;
 }
 
-	function limparcampo(){
+function limparcampo(){
 	$('#nome').val("");
 	$('#valor').val("");
 	$('#estoque').val("");
