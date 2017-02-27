@@ -6,6 +6,7 @@ var naorepete=0;
 
 function salvar (){
 	Nome =  $('#nome').val();
+	console.log(Nome);
 	Valor = $('#valor').val();
 	Estoque = $('#estoque').val();
 	Status = $('#status').val();
@@ -42,18 +43,24 @@ var username=document.login.username.value;
 username=username.toLowerCase();
 var password=document.login.password.value;
 password=password.toLowerCase();
-if (username=="bianca" && password=="senha") { window.location="file:///D:/Github/Projeto-II/tabela%202/mercadodobruno2.html"; done=1; }
-if (username=="outro" && password=="outrosenha") { window.location="file:///D:/Github/Projeto-II/tabela%202/mercadodobruno2.html"; done=1; }
-if (username=="outro" && password=="outrasenha") { window.location="file:///D:/Github/Projeto-II/tabela%202/mercadodobruno2.html"; done=1; }
+if (username=="bianca" && password=="senha") { window.location="file:///D:/Github/Projeto-II/tabela%202%20funcionando/mercadodobruno2.html"; done=1; }
+if (username=="outro" && password=="outrosenha") { window.location="file:///D:/Github/Projeto-II/tabela%202%20funcionando/mercadodobruno2.html"; done=1; }
+if (username=="outro" && password=="outrasenha") { window.location="file:///D:/Github/Projeto-II/tabela%202%20funcionando/mercadodobruno2.html"; done=1; }
 if (done==0) { alert("Senha ou Usuário inválido."); }
 }
 
 $(document).ready(function(){
 	$("#alertconcluido").hide();
+	$("#alerteditado").hide();
 	tudo();
 	$("#estoque").keypress(verificaNumeroEstoque);
 	$("#nome").keypress(Bloqueianumeros);
 	$("#valor").keypress(verificaNumerosValor);
+
+	$("#loga").click(function(){
+		Login();
+	});
+
 
 	$("#valor").maskMoney({decimal:".", thousands:"", million:"."});
 
@@ -161,6 +168,12 @@ $(document).ready(function(){
 				success: tudo
         });
         $('#myModal').modal('hide');
+        $("#alerteditado").show();
+			window.setTimeout(function() {
+    		$(".alert").slideUp(500, function(){
+        	$(this).hide(); 
+    		});
+			}, 2000);
        }
     });
 
@@ -248,7 +261,7 @@ function titulo(){
 	}else if(alteranome==1){
 		document.getElementById('titulo').innerHTML = "  Editar Itens";
 	}else{
-		document.getElementById('titulo').innerHTML = "  Tem certeza que quer deletar?";
+		document.getElementById('titulo').innerHTML = "  Tem certeza que deseja deletar?";
 	}
 }
 
