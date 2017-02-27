@@ -110,10 +110,6 @@ margin-bottom: 10px;
 	font-size: 20px;
 }
 
-input{
-    text-transform:capitalize;
-}
-
 .form-group p {
 margin-top: 2%;
 font-family: 'Quicksand', sans-serif;
