@@ -6,7 +6,6 @@ var naorepete=0;
 
 function salvar (){//SALVA OS DADOS ESCRITOS NO MODAL
 	Nome =  $('#nome').val();
-	console.log(Nome);
 	Valor = $('#valor').val();
 	Estoque = $('#estoque').val();
 	Status = $('#status').val();
@@ -14,7 +13,7 @@ function salvar (){//SALVA OS DADOS ESCRITOS NO MODAL
 
 
 function tudo(){//PRINTA E ARRUMA O VALOR
-	$('#tabelaproducts').empty(); //Limpando a tabela
+	$('#tabelaProdutos').empty(); //Limpando a tabela
 	$.get(server, function(data) {
 		dados=data;
 		for(var i=0;i<dados.length;i++){
@@ -24,13 +23,13 @@ function tudo(){//PRINTA E ARRUMA O VALOR
 			n = n.replace(".", ",");
 			if (troca==0) {
 				if(dados[i].status == "A"){
-				$('#tabelaproducts').append('<tr><td>'+dados[i].id+'</td><td>'+dados[i].nome+'</td><td>'+'R$ '+n+' '+'</td><td>'+'<span class="glyphicon glyphicon-thumbs-up"></span>'+'</td><td>'+dados[i].estoque+'</td><td>'+'<button type="button" onclick= "editar('+i+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button" onclick= "deleta('+j+') " data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>');
+				$('#tabelaProdutos').append('<tr><td>'+dados[i].id+'</td><td>'+dados[i].nome+'</td><td>'+'R$ '+n+' '+'</td><td>'+'<span class="glyphicon glyphicon-thumbs-up"></span>'+'</td><td>'+dados[i].estoque+'</td><td>'+'<button type="button" onclick= "editar('+i+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button" onclick= "deleta('+j+') " data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>');
 			}  
 			
 			}
 			else{
 				if(dados[i].status == "I"){
-					$('#tabelaproducts').append('<tr><td>'+dados[i].id+'</td><td>'+dados[i].nome+'</td><td>'+'R$ '+n+' '+'</td><td>'+'<span class="glyphicon glyphicon-thumbs-down"></span>'+'</td><td>'+dados[i].estoque+'</td><td>'+'<button type="button" onclick= "editar('+i+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button"  onclick= "deleta('+j+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>');
+					$('#tabelaProdutos').append('<tr><td>'+dados[i].id+'</td><td>'+dados[i].nome+'</td><td>'+'R$ '+n+' '+'</td><td>'+'<span class="glyphicon glyphicon-thumbs-down"></span>'+'</td><td>'+dados[i].estoque+'</td><td>'+'<button type="button" onclick= "editar('+i+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button"  onclick= "deleta('+j+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>');
 				}
 			}  
 		}
