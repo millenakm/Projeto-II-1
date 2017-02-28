@@ -11,7 +11,7 @@ th{
 
 }
 
-#myBtn{
+#adiciona{
 
 	margin-top: 3%;
 }
@@ -33,7 +33,6 @@ th{
 	color: black;
 	font-size: 18px;
 	font-family: 'Quicksand', sans-serif;
-
 }
 
 .margemlista{
@@ -115,18 +114,16 @@ margin-top: 2%;
 font-family: 'Quicksand', sans-serif;
 }
 
-#alertconcluido {
-
+#alertaItemAdicionado {
 	margin-top: 2%;
 	margin-bottom: 2%;
 }
 
-#alertcampovazio{
+#alertaCampoVazio{
 	margin-top: 2%;
 }
 
-#alerteditado{
-
+#alertaItemEditado{
 margin-top: 2%;
 }
 

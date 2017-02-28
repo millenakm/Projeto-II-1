@@ -47,25 +47,21 @@
 					</div>
 					<div class="container">
 						<h2>Altere a lista conforme o desejado</h2>
-						<div class="modal fade" id="myModal" role="dialog">
+						<div class="modal fade" id="modal" role="dialog">
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal">&times;</button>
-										<h4 id="titulo"><span class="glyphicon glyphicon-tag"></span></h4>
+										<h4 id="tituloModal"><span class="glyphicon glyphicon-tag"></span></h4>
 									</div>
-									<div class="modal-body">	
-										<div class="alert alert-danger" id="alertnaorepete" role="alert">
+									<div class="modal-body" id="corpoModal">	
+										<div class="alert alert-danger" id="alertaProdutoExiste" role="alert">
 											<strong>Ops..</strong> Produto já cadastrado.
 										</div>
-										<form role="form" name="meuform">
-											<div id="textboxs">
+										<form role="form">
 												<div class="form-group">
 													<label for="nome"><span class="glyphicon glyphicon-menu-right"></span> Nome </label>
 													<input type="text" onpaste="return false" ondrop="return false" class="form-control" id="nome" placeholder="Nome" />
-													<div id="mensagem">
-														<p>Mantenha o CapsLock desligado!</p>
-													</div>
 												</div>
 												<div class="form-group has-feedback">
 													<label for="valor"><span class="glyphicon glyphicon-usd"></span> Valor</label>
@@ -85,8 +81,7 @@
 													<option value="A">Ativo</option>
 													<option value="I">Inativo</option>
 												</select>
-											</div>
-											<div class="alert alert-warning" id="alertcampovazio" role="alert">
+											<div class="alert alert-warning" id="alertaCampoVazio" role="alert">
 											  <strong>Atenção!</strong> Preencha todos os campos!
 											</div>
 										</form>
@@ -111,28 +106,26 @@
 						</div> 
 					</div>
 					<button type="button" class="btn btn-default btn-lg" id="adiciona"><span class="glyphicon glyphicon-plus"></span></button>
-					<div class="alert alert-success" id="alertconcluido" role="alert">
+					<div class="alert alert-success" id="alertaItemAdicionado" role="alert">
 						<strong>Concluído!</strong> Item adicionado à lista!
 					</div>
-					<div class="alert alert-success" id="alerteditado" role="alert">
+					<div class="alert alert-success" id="alertaItemEditado" role="alert">
 						<strong>Concluído!</strong> Item editado com sucesso!
 					</div>
-					<div class="letra">
-						<table class=" table table-hover" border= "1" >
-							<thead>
-								<tr>
-									<th>ID</th>
-									<th>Nome</th>
-									<th>Valor</th>
-									<th>Status</th>
-									<th>Estoque</th>
-									<th>Editar</th>
-									<th>Deletar</th>
-								</tr>
-							</thead>
-							<tbody id="tabelaProdutos"></tbody>
-						</table>
-					</div>	
+					<table class="letra table table-hover" border= "1" >
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Nome</th>
+								<th>Valor</th>
+								<th>Status</th>
+								<th>Estoque</th>
+								<th>Editar</th>
+								<th>Deletar</th>
+							</tr>
+						</thead>
+						<tbody id="tabelaProdutos"></tbody>
+					</table>
 				</div>
 			</div>
 		</div>

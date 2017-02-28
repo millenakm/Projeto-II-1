@@ -4,7 +4,7 @@ var troca=0;
 var dele=0;
 var naorepete=0;
 
-function salvar(){//SALVA OS DADOS ESCRITOS NO MODAL
+function dadosModal(){//SALVA OS DADOS ESCRITOS NO MODAL
 	Nome =  $('#nome').val();
 	Valor = $('#valor').val();
 	Estoque = $('#estoque').val();
@@ -23,13 +23,13 @@ function tudo(){//PRINTA E ARRUMA O VALOR
 			n = n.replace(".", ",");
 			if (troca==0) {
 				if(dados[i].status == "A"){
-				$('#tabelaProdutos').append('<tr><td>'+dados[i].id+'</td><td>'+dados[i].nome+'</td><td>'+'R$ '+n+' '+'</td><td>'+'<span class="glyphicon glyphicon-thumbs-up"></span>'+'</td><td>'+dados[i].estoque+'</td><td>'+'<button type="button" onclick= "editaTabela('+i+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button" onclick= "deletaTabela('+j+') " data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>');
+				$('#tabelaProdutos').append('<tr><td>'+dados[i].id+'</td><td>'+dados[i].nome+'</td><td>'+'R$ '+n+' '+'</td><td>'+'<span class="glyphicon glyphicon-thumbs-up"></span>'+'</td><td>'+dados[i].estoque+'</td><td>'+'<button type="button" onclick= "editaTabela('+i+')" data-toggle="modal" data-target="#modal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button" onclick= "deletaTabela('+j+') " data-toggle="modal" data-target="#modal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>');
 			}  
 			
 			}
 			else{
 				if(dados[i].status == "I"){
-					$('#tabelaProdutos').append('<tr><td>'+dados[i].id+'</td><td>'+dados[i].nome+'</td><td>'+'R$ '+n+' '+'</td><td>'+'<span class="glyphicon glyphicon-thumbs-down"></span>'+'</td><td>'+dados[i].estoque+'</td><td>'+'<button type="button" onclick= "editaTabela('+i+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button"  onclick= "deletaTabela('+j+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>');
+					$('#tabelaProdutos').append('<tr><td>'+dados[i].id+'</td><td>'+dados[i].nome+'</td><td>'+'R$ '+n+' '+'</td><td>'+'<span class="glyphicon glyphicon-thumbs-down"></span>'+'</td><td>'+dados[i].estoque+'</td><td>'+'<button type="button" onclick= "editaTabela('+i+')" data-toggle="modal" data-target="#modal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button"  onclick= "deletaTabela('+j+')" data-toggle="modal" data-target="#modal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>');
 				}
 			}  
 		}
@@ -54,13 +54,12 @@ function deletaTabela(v){//FUNÇÃO QUE É CHAMADA
 	$("#confirma").hide();
 	$("#edita").hide();
 	$("#deleta").show();
-	$("#mensagem").hide();
-	$("#alertcampovazio").hide();
-	$("#alertnaorepete").hide();
+	$("#alertaCampoVazio").hide();
+	$("#alertaProdutoExiste").hide();
 	$("#cancela").hide();
-	$("#textboxs").hide();
+	$("#corpoModal").hide();
 	alteranome = 2;
-	titulo();
+	tituloModal();
 	}
 
 function del(){
@@ -69,7 +68,7 @@ function del(){
 	url: servidor+ dele,
 	success: tudo //SE TIVER SUCESSO, VAI LIMPAR A TABELA E PRINTAR NOVAMENTE
 	});
-	$('#myModal').modal('hide');
+	$('#modal').modal('hide');
 }
 
  function editaTabela(o){//FUNÇÃO PARA EDITAR
@@ -77,11 +76,11 @@ function del(){
 	$("#edita").show();
 	$("#deleta").hide();
 	$("#cancela").show();
-	$("#alertcampovazio").hide();
-	$("#alertnaorepete").hide();
-	$("#textboxs").show();
+	$("#alertaCampoVazio").hide();
+	$("#alertaProdutoExiste").hide();
+	$("#corpoModal").show();
 	alteranome = 1;
-	titulo();
+	tituloModal();
 	document.getElementById('nome').value = dados[o].nome;//PEGA AS INFORMAÇÕES EXISTENTES
 	document.getElementById('valor').value = dados[o].valor;
 	document.getElementById('status').value = dados[o].status;
@@ -96,13 +95,13 @@ function limparcampo(){//O MODAL INICIA VAZIO
  
 	}
 
-function titulo(){//SELECIONA O TITULO A PARTIR DO VALOR
+function tituloModal(){//SELECIONA O tituloModal A PARTIR DO VALOR
 	if(alteranome==0){
-		 document.getElementById('titulo').innerHTML = "  Adicionar Itens";
+		 document.getElementById('tituloModal').innerHTML = "  Adicionar Itens";
 	}else if(alteranome==1){
-		document.getElementById('titulo').innerHTML = "  Editar Itens";
+		document.getElementById('tituloModal').innerHTML = "  Editar Itens";
 	}else{
-		document.getElementById('titulo').innerHTML = "  Tem certeza que deseja deletar?";
+		document.getElementById('tituloModal').innerHTML = "  Tem certeza que deseja deletar?";
 	}
 }
 
@@ -137,8 +136,8 @@ function nomeIgual(){
 				},
 				success: tudo	
 			});
-			$('#myModal').modal('hide');//FECHAMENTO DE MODAL
-			$("#alertconcluido").show();//ALERTA DE CONCLUIDO
+			$('#modal').modal('hide');//FECHAMENTO DE MODAL
+			$("#alertaItemAdicionado").show();//ALERTA DE CONCLUIDO
 			window.setTimeout(function() {
 			$(".alert").slideUp(500, function(){
 			$(this).hide(); 
@@ -146,7 +145,7 @@ function nomeIgual(){
 			}, 2000);
 
 		}else{
-			$("#alertnaorepete").show();//ALERTA DE REPETIÇÃO
+			$("#alertaProdutoExiste").show();//ALERTA DE REPETIÇÃO
 			window.setTimeout(function() {
 			$(".alert").slideUp(500, function(){
 			$(this).hide(); 
@@ -157,8 +156,8 @@ function nomeIgual(){
 }
 
 function actions(){//FUNÇÕES DE BOTÕES E INPUT
-	$("#alertconcluido").hide();
-	$("#alerteditado").hide();
+	$("#alertaItemAdicionado").hide();
+	$("#alertaItemEditado").hide();
 	$("#estoque").keypress(verificaNumeroEstoque);
 	$("#nome").keypress(Bloqueianumeros);
 	$("#valor").keypress(verificaNumerosValor);
@@ -185,12 +184,12 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 
 	$("#adiciona").click(function(){ //ABRE O MODAL
 		alteranome = 0;
-		titulo();
+		tituloModal();
 	});
 	$('#confirma').click(function(){
-		salvar();//PUXA DADOS DIGITADOS NO MODAL
+		dadosModal();//PUXA DADOS DIGITADOS NO MODAL
 		if(Nome=="" || Valor=="" || Estoque==""){//SE ESTIVER ALGUM CAMPO VAZIO DA O ALERTA E BLOQUEIA O SUBMIT
-			$("#alertcampovazio").show();
+			$("#alertaCampoVazio").show();
 			window.setTimeout(function() {
 			$(".alert").slideUp(500, function(){
 			$(this).hide(); 
@@ -204,9 +203,9 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 		}
 	});
 	$('#edita').click(function(){
-		salvar();
+		dadosModal();
 		if(Nome=="" || Valor=="" || Estoque==""){// ALERTA DE CAMPO VAZIO
-			$("#alertcampovazio").show();
+			$("#alertaCampoVazio").show();
 			window.setTimeout(function() {
 			$(".alert").slideUp(500, function(){
 			$(this).hide(); 
@@ -224,8 +223,8 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 			},
 				success: tudo
 		});
-		$('#myModal').modal('hide');//FECHA MODAL
-		$("#alerteditado").show();//MENSAGEM DE EDIÇÃO CONCLUIDA
+		$('#modal').modal('hide');//FECHA MODAL
+		$("#alertaItemEditado").show();//MENSAGEM DE EDIÇÃO CONCLUIDA
 			window.setTimeout(function() {
 			$(".alert").slideUp(500, function(){
 			$(this).hide(); 
@@ -234,14 +233,14 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 	   }
 	});
 	$("#adiciona").click(function(){ //CHAMA O MODAL INICIAL DE ADICIONAR ITEM
-		$("#alertcampovazio").hide();
-		$("#alertnaorepete").hide();
-		$("#myModal").modal();
+		$("#alertaCampoVazio").hide();
+		$("#alertaProdutoExiste").hide();
+		$("#modal").modal();
 		$("#edita").hide();
 		$("#deleta").hide();
 		$("#confirma").show();
 		$("#cancela").show();
-		$("#textboxs").show();
+		$("#corpoModal").show();
 		limparcampo();//CHAMA O MODAL VAZIO
 
 	});
