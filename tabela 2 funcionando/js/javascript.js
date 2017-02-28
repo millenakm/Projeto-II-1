@@ -28,15 +28,14 @@ function criaTabela(){//PRINTA E ARRUMA O VALOR
 			if (troca==0) {
 				if(dados[i].status == "A"){
 					var linhas = linhasTabela(dados[i].id, dados[i].nome, valor, dados[i].estoque, ativoIcon, i);
-					$('#tabelaProdutos').append(linhas);
 				}  
 			}
 			else{
 				if(dados[i].status == "I"){
 					var linhas = linhasTabela(dados[i].id, dados[i].nome, valor, dados[i].estoque, inativoIcon, i);
-					$('#tabelaProdutos').append(linhas);
 				}
 			}  
+			$('#tabelaProdutos').append(linhas);
 		}
 	});
 }
@@ -227,7 +226,6 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 		$("#modal").modal();
 		$("#confirma, #cancela, #corpoModal").show();
 		limparcampo();//CHAMA O MODAL VAZIO
-
 	});
 	$("#nome, #valor, #estoque").on("drop, paste", function(e){
 		e.preventDefault();
