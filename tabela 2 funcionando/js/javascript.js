@@ -183,7 +183,7 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 		tudo();
 	});
 
-	$("#myBtn").click(function(){ //ABRE O MODAL
+	$("#adiciona").click(function(){ //ABRE O MODAL
 		alteranome = 0;
 		titulo();
 	});
@@ -233,7 +233,7 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 			}, 2000);
 	   }
 	});
-	$("#myBtn").click(function(){ //CHAMA O MODAL INICIAL DE ADICIONAR ITEM
+	$("#adiciona").click(function(){ //CHAMA O MODAL INICIAL DE ADICIONAR ITEM
 		$("#alertcampovazio").hide();
 		$("#alertnaorepete").hide();
 		$("#myModal").modal();
