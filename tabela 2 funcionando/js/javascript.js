@@ -63,13 +63,8 @@ if (done==0) { alert("Senha ou Usuário inválido."); }
 
 function botaoDeletaTab(v){//FUNÇÃO QUE É CHAMADA 
 	dele = v; //ID DO PRODUTO SALVO AQUI
-	$("#confirma").hide();
-	$("#edita").hide();
+	$("#confirma, #edita, #alertaCampoVazio, #alertaProdutoExiste, #cancela, #corpoModal").hide();
 	$("#deleta").show();
-	$("#alertaCampoVazio").hide();
-	$("#alertaProdutoExiste").hide();
-	$("#cancela").hide();
-	$("#corpoModal").hide();
 	alteranome = 2;
 	tituloModal();
 	}
@@ -85,19 +80,14 @@ function deletaItem(){
 }
 
  function botaoEditaTab(o){//FUNÇÃO PARA EDITAR
-	$("#confirma").hide();
-	$("#edita").show();
-	$("#deleta").hide();
-	$("#cancela").show();
-	$("#alertaCampoVazio").hide();
-	$("#alertaProdutoExiste").hide();
-	$("#corpoModal").show();
+	$("#confirma, #deleta, #alertaProdutoExiste, #alertaCampoVazio").hide();
+	$("#edita, #cancela, #corpoModal").show();
 	alteranome = 1;
 	tituloModal();
-	document.getElementById('nome').value = dados[o].nome;//PEGA AS INFORMAÇÕES EXISTENTES
-	document.getElementById('valor').value = dados[o].valor;
-	document.getElementById('status').value = dados[o].status;
-	document.getElementById('estoque').value = dados[o].estoque;
+	$('#nome').val(dados[o].nome);//PEGA AS INFORMAÇÕES EXISTENTES
+	$('#valor').val(dados[o].valor);
+	$('#status').val(dados[o].status);
+	$('#estoque').val(dados[o].estoque);
 	muda = dados[o].id;
 }
 
@@ -105,16 +95,15 @@ function limparcampo(){//O MODAL INICIA VAZIO
 	$('#nome').val("");
 	$('#valor').val("");
 	$('#estoque').val("");
- 
-	}
+ }
 
 function tituloModal(){//SELECIONA O tituloModal A PARTIR DO VALOR
 	if(alteranome==0){
-		 document.getElementById('tituloModal').innerHTML = "  Adicionar Itens";
+		$('#tituloModal').html("  Adicionar Itens");
 	}else if(alteranome==1){
-		document.getElementById('tituloModal').innerHTML = "  Editar Itens";
+		$('#tituloModal').html("  Editar Itens");
 	}else{
-		document.getElementById('tituloModal').innerHTML = "  Tem certeza que deseja deletar?";
+		$('#tituloModal').html("  Tem certeza que deseja deletar?");
 	}
 }
 
@@ -169,8 +158,8 @@ function mostraAlerta(){
 }
 
 function actions(){//FUNÇÕES DE BOTÕES E INPUT
-	$("#alertaItemAdicionado").hide();
-	$("#alertaItemEditado").hide();
+	$("#alertaItemAdicionado, #alertaItemEditado").hide();
+
 	$("#estoque").keypress(verificaNumeroEstoque);
 	$("#nome").keypress(Bloqueianumeros);
 	$("#valor").keypress(verificaNumerosValor);
@@ -234,14 +223,9 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 	   }
 	});
 	$("#adiciona").click(function(){ //CHAMA O MODAL INICIAL DE ADICIONAR ITEM
-		$("#alertaCampoVazio").hide();
-		$("#alertaProdutoExiste").hide();
+		$("#alertaCampoVazio, #alertaProdutoExiste, #deleta, #edita").hide();
 		$("#modal").modal();
-		$("#edita").hide();
-		$("#deleta").hide();
-		$("#confirma").show();
-		$("#cancela").show();
-		$("#corpoModal").show();
+		$("#confirma, #cancela, #corpoModal").show();
 		limparcampo();//CHAMA O MODAL VAZIO
 
 	});
