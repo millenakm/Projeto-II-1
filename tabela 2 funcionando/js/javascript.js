@@ -1,10 +1,10 @@
-var server="http://localhost:3000/product/";
+var servidor="http://192.168.1.172:3000/product/";
 var dados, j;
 var troca=0;
 var dele=0;
 var naorepete=0;
 
-function salvar (){//SALVA OS DADOS ESCRITOS NO MODAL
+function salvar(){//SALVA OS DADOS ESCRITOS NO MODAL
 	Nome =  $('#nome').val();
 	Valor = $('#valor').val();
 	Estoque = $('#estoque').val();
@@ -14,7 +14,7 @@ function salvar (){//SALVA OS DADOS ESCRITOS NO MODAL
 
 function tudo(){//PRINTA E ARRUMA O VALOR
 	$('#tabelaProdutos').empty(); //Limpando a tabela
-	$.get(server, function(data) {
+	$.get(servidor, function(data) {
 		dados=data;
 		for(var i=0;i<dados.length;i++){
 			j= dados[i].id;
@@ -23,13 +23,13 @@ function tudo(){//PRINTA E ARRUMA O VALOR
 			n = n.replace(".", ",");
 			if (troca==0) {
 				if(dados[i].status == "A"){
-				$('#tabelaProdutos').append('<tr><td>'+dados[i].id+'</td><td>'+dados[i].nome+'</td><td>'+'R$ '+n+' '+'</td><td>'+'<span class="glyphicon glyphicon-thumbs-up"></span>'+'</td><td>'+dados[i].estoque+'</td><td>'+'<button type="button" onclick= "editar('+i+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button" onclick= "deleta('+j+') " data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>');
+				$('#tabelaProdutos').append('<tr><td>'+dados[i].id+'</td><td>'+dados[i].nome+'</td><td>'+'R$ '+n+' '+'</td><td>'+'<span class="glyphicon glyphicon-thumbs-up"></span>'+'</td><td>'+dados[i].estoque+'</td><td>'+'<button type="button" onclick= "editaTabela('+i+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button" onclick= "deletaTabela('+j+') " data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>');
 			}  
 			
 			}
 			else{
 				if(dados[i].status == "I"){
-					$('#tabelaProdutos').append('<tr><td>'+dados[i].id+'</td><td>'+dados[i].nome+'</td><td>'+'R$ '+n+' '+'</td><td>'+'<span class="glyphicon glyphicon-thumbs-down"></span>'+'</td><td>'+dados[i].estoque+'</td><td>'+'<button type="button" onclick= "editar('+i+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button"  onclick= "deleta('+j+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>');
+					$('#tabelaProdutos').append('<tr><td>'+dados[i].id+'</td><td>'+dados[i].nome+'</td><td>'+'R$ '+n+' '+'</td><td>'+'<span class="glyphicon glyphicon-thumbs-down"></span>'+'</td><td>'+dados[i].estoque+'</td><td>'+'<button type="button" onclick= "editaTabela('+i+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button"  onclick= "deletaTabela('+j+')" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>');
 				}
 			}  
 		}
@@ -49,11 +49,11 @@ if (done==0) { alert("Senha ou Usuário inválido."); }
 }
 
 
-function deleta(v){//FUNÇÃO QUE É CHAMADA 
+function deletaTabela(v){//FUNÇÃO QUE É CHAMADA 
 	dele = v; //ID DO PRODUTO SALVO AQUI
-	$("#confirmar").hide();
-	$("#editaron").hide();
-	$("#deletinho").show();
+	$("#confirma").hide();
+	$("#edita").hide();
+	$("#deleta").show();
 	$("#mensagem").hide();
 	$("#alertcampovazio").hide();
 	$("#alertnaorepete").hide();
@@ -66,16 +66,16 @@ function deleta(v){//FUNÇÃO QUE É CHAMADA
 function del(){
 	$.ajax({
 	type: 'DELETE',
-	url: server+ dele,
+	url: servidor+ dele,
 	success: tudo //SE TIVER SUCESSO, VAI LIMPAR A TABELA E PRINTAR NOVAMENTE
 	});
 	$('#myModal').modal('hide');
 }
 
- function editar(o){//FUNÇÃO PARA EDITAR
-	$("#confirmar").hide();
-	$("#editaron").show();
-	$("#deletinho").hide();
+ function editaTabela(o){//FUNÇÃO PARA EDITAR
+	$("#confirma").hide();
+	$("#edita").show();
+	$("#deleta").hide();
 	$("#cancela").show();
 	$("#alertcampovazio").hide();
 	$("#alertnaorepete").hide();
@@ -127,7 +127,7 @@ function Bloqueianumeros(e){ //BLOQUEIA NUMEROS NO NOME
 function nomeIgual(){
 		if(naorepete==0){
 			$.ajax({
-				url : server,
+				url : servidor,
 				type : 'POST',
 				data : {
 					nome: Nome,
@@ -169,7 +169,7 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 	$("#valor").maskMoney({decimal:".", thousands:"", million:"." //MASCARA DE DINHEIRO
 	});
 
-	$("#deletinho").click(function(){ //DELETA OS DADOS DEFINITIVAMENTE
+	$("#deleta").click(function(){ //DELETA OS DADOS DEFINITIVAMENTE
 		del();
 	});
 
@@ -187,7 +187,7 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 		alteranome = 0;
 		titulo();
 	});
-	$('#confirmar').click(function(){
+	$('#confirma').click(function(){
 		salvar();//PUXA DADOS DIGITADOS NO MODAL
 		if(Nome=="" || Valor=="" || Estoque==""){//SE ESTIVER ALGUM CAMPO VAZIO DA O ALERTA E BLOQUEIA O SUBMIT
 			$("#alertcampovazio").show();
@@ -203,7 +203,7 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 			nomeIgual();//CHAMA FUNÇÃO QUE VERIFICA NOME IGUAL
 		}
 	});
-	$('#editaron').click(function(){
+	$('#edita').click(function(){
 		salvar();
 		if(Nome=="" || Valor=="" || Estoque==""){// ALERTA DE CAMPO VAZIO
 			$("#alertcampovazio").show();
@@ -214,7 +214,7 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 			}, 2000);
 		}else{ //EDITA O ITEM SELECIONADO
 		$.ajax({
-			url : server+ muda,
+			url : servidor+ muda,
 			type : 'PUT',
 			data : {
 				nome: Nome,
@@ -237,9 +237,9 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 		$("#alertcampovazio").hide();
 		$("#alertnaorepete").hide();
 		$("#myModal").modal();
-		$("#editaron").hide();
-		$("#deletinho").hide();
-		$("#confirmar").show();
+		$("#edita").hide();
+		$("#deleta").hide();
+		$("#confirma").show();
 		$("#cancela").show();
 		$("#textboxs").show();
 		limparcampo();//CHAMA O MODAL VAZIO
