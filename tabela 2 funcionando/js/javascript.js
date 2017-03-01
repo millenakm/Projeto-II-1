@@ -3,15 +3,8 @@ var dados;
 var dele=0;
 var naorepete=0;
 
-function dadosModal(){//SALVA OS DADOS ESCRITOS NO MODAL
-	Nome =  $('#nome').val();
-	Valor = $('#valor').val();
-	Estoque = $('#estoque').val();
-	Status = $('#status').val();
-}
-
 function linhasTabela(id, nome, valor, estoque, status, i){
-	var linhas = '<tr><td>'+id+'</td><td>'+nome+'</td><td>'+'R$ '+valor+' '+'</td><td><span class="glyphicon glyphicon-thumbs-'+status+'"></span></td><td>'+estoque+'</td><td>'+'<button type="button" onclick= "modalEditar('+i+')" data-toggle="modal" data-target="#modal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button" onclick= "modalDeletar('+id+')" data-toggle="modal" data-target="#modal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>';
+	var linhas = '<tr><td>'+id+'</td><td>'+nome+'</td><td>'+'R$ '+valor+' '+'</td><td><span class="glyphicon glyphicon-thumbs-'+status+'"></span></td><td>'+estoque+'</td><td>'+'<button type="button" onclick= "inputsModalEditar('+i+')" data-toggle="modal" data-target="#modal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button" onclick= "modalDeletar('+id+')" data-toggle="modal" data-target="#modal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>';
 	return linhas;
 }
 
@@ -56,7 +49,7 @@ function checaStatusPagina(){
 }
 
 function jsonAjax(id, tipo, nome, valor, estoque, status){
-	var dados ={
+	var dadosJson ={
 		url : servidor+id,
 		type : tipo,
 		data : {
@@ -69,12 +62,12 @@ function jsonAjax(id, tipo, nome, valor, estoque, status){
 			criaTabela();
 			$('#modal').modal('hide');
 		}
-	};return dados;	
+	};return dadosJson;	
 }
 
 function deletaItem(id){
-	var dados = jsonAjax(id, 'DELETE', '', '', '', '');
-	$.ajax(dados);
+	var dadosJson = jsonAjax(id, 'DELETE', '', '', '', '');
+	$.ajax(dadosJson);
 }
 function modalDeletar(id){//FUNÇÃO QUE É CHAMADA
 	$("#confirma, #edita, #alertaCampoVazio, #alertaProdutoExiste, #cancela, #corpoModal").hide();
@@ -82,23 +75,92 @@ function modalDeletar(id){//FUNÇÃO QUE É CHAMADA
 	tituloModal("  Tem certeza que deseja deletar?");
 }
 
+function dadosModal(id){//SALVA OS DADOS ESCRITOS NO MODAL
+	var nome =  $('#nome').val();
+	var valor = $('#valor').val();
+	var estoque = $('#estoque').val();
+	var status = $('#status').val();
+	verificaInputs(id, nome, valor, estoque, status);
+}
 
-function modalEditar(o){//FUNÇÃO PARA EDITAR
+function verificaInputs(id, nome, valor, estoque, status){
+	if(nome=="" || valor=="" || estoque==""){// ALERTA DE CAMPO VAZIO
+		$("#alertaCampoVazio").show();
+		mostraAlerta();
+	}else{ //EDITA O ITEM SELECIONADO
+		if(id=="adiciona"){
+			adicionaItem(nome, valor, estoque, status);
+		}
+		else{
+			editaItem(id, nome, valor, estoque, status);
+		}
+	}
+}
+
+function editaItem(id, nome, valor, estoque, status){
+	var dadosJson = jsonAjax(id, 'PUT', nome, valor, estoque, status);
+	$.ajax(dadosJson);
+	$("#alertaItemEditado").show();//MENSAGEM DE EDIÇÃO CONCLUIDA
+	mostraAlerta();
+}
+
+function inputsModalEditar(i){
+	$('#nome').val(dados[i].nome);
+	$('#valor').val(dados[i].valor);
+	$('#status').val(dados[i].status);
+	$('#estoque').val(dados[i].estoque);
+	$("#edita").data("id", dados[i].id);
+	modalEditar();
+}
+
+function modalEditar(){//FUNÇÃO PARA EDITAR
 	$("#confirma, #deleta, #alertaProdutoExiste, #alertaCampoVazio").hide();
 	$("#edita, #cancela, #corpoModal").show();
 	tituloModal("  Editar Itens");
-	$('#nome').val(dados[o].nome);//PEGA AS INFORMAÇÕES EXISTENTES
-	$('#valor').val(dados[o].valor);
-	$('#status').val(dados[o].status);
-	$('#estoque').val(dados[o].estoque);
-	muda = dados[o].id;
 }
 
-function limparcampo(){//O MODAL INICIA VAZIO
+function modalAdicionar(){
+	tituloModal("  Adicionar Itens");
+	$("#alertaCampoVazio, #alertaProdutoExiste, #deleta, #edita").hide();
+	$("#modal").modal();
+	$("#confirma, #cancela, #corpoModal").show();
+	inputsModalAdicionar();//CHAMA O MODAL VAZIO
+}
+
+function inputsModalAdicionar(){//O MODAL INICIA VAZIO
 	$('#nome').val("");
 	$('#valor').val("");
 	$('#estoque').val("");
  }
+
+function adicionaItem(nome, valor, estoque, status){
+	var flagNome = checaNome(nome.toLowerCase());
+	if(flagNome==0){
+		var dadosJson = jsonAjax('', 'POST', nome, valor, estoque, status);
+		$.ajax(dadosJson);
+		$("#alertaItemAdicionado").show();//ALERTA DE CONCLUIDO
+		mostraAlerta();
+	}else{
+		$("#alertaProdutoExiste").show();//ALERTA DE REPETIÇÃO
+		mostraAlerta();
+	}	
+}
+
+function checaNome(nomeInput){
+	var flagNome = 0;
+	for(var i=0;i<dados.length;i++){//FAZ VARREDURA PARA VERIFICAR EXISTENCIA DE NOME IGUAL
+		var nome = dados[i].nome.toLowerCase();
+		if(nome==nomeInput){
+			flagNome = 1;
+		}
+	}
+	console.log(flagNome);
+	// return flagNome;//CHAMA FUNÇÃO QUE VERIFICA NOME IGUAL
+}
+
+function nomeIgual(){
+		
+}
 
 function tituloModal(titulo){//SELECIONA O tituloModal A PARTIR DO VALOR
 	$('#tituloModal').html(titulo);
@@ -116,30 +178,6 @@ function bloqueiaNumeros(e){ //BLOQUEIA NUMEROS NO NOME
 	}
 }
 
-function nomeIgual(){
-		if(naorepete==0){
-			var adiciona={
-				url : servidor,
-				type : 'POST',
-				data : {
-					nome: Nome,
-					valor: Valor,
-					estoque: Estoque,
-					status: Status
-				},
-				success: criaTabela	
-			}
-			$.ajax(adiciona);
-			$('#modal').modal('hide');//FECHAMENTO DE MODAL
-			$("#alertaItemAdicionado").show();//ALERTA DE CONCLUIDO
-			mostraAlerta();
-
-		}else{
-			$("#alertaProdutoExiste").show();//ALERTA DE REPETIÇÃO
-			mostraAlerta();
-			naorepete=0;
-		}
-}
 function mostraAlerta(){
 	window.setTimeout(function() {
 		$(".alert").slideUp(500, function(){
@@ -163,6 +201,17 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 		var id = $(this).data("id");
 		deletaItem(id);
 	});
+	$('#edita').click(function(){
+		var id = $(this).data("id");
+		dadosModal(id);
+	});
+	$("#adiciona").click(function(){ //ABRE O MODAL
+		modalAdicionar();
+	});
+	$('#confirma').click(function(){
+		dadosModal("adiciona");//PUXA DADOS DIGITADOS NO MODAL
+	});
+
 
 
 
@@ -174,49 +223,7 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 		Login();
 	});
 
-	$("#adiciona").click(function(){ //ABRE O MODAL
-		tituloModal("  Adicionar Itens");
-	});
-	$('#confirma').click(function(){
-		dadosModal();//PUXA DADOS DIGITADOS NO MODAL
-		if(Nome=="" || Valor=="" || Estoque==""){//SE ESTIVER ALGUM CAMPO VAZIO DA O ALERTA E BLOQUEIA O SUBMIT
-			$("#alertaCampoVazio").show();
-			mostraAlerta();
-		}else{
-			for(var i=0;i<dados.length;i++){//FAZ VARREDURA PARA VERIFICAR EXISTENCIA DE NOME IGUAL
-				if(dados[i].nome.toLowerCase()===Nome.toLowerCase()){naorepete=1;}//ACHANDO NOME IGUAL, VARIAVEL SETA PARA 1
-			}
-			nomeIgual();//CHAMA FUNÇÃO QUE VERIFICA NOME IGUAL
-		}
-	});
-	$('#edita').click(function(){
-		dadosModal();
-		if(Nome=="" || Valor=="" || Estoque==""){// ALERTA DE CAMPO VAZIO
-			$("#alertaCampoVazio").show();
-			mostraAlerta();
-		}else{ //EDITA O ITEM SELECIONADO
-		$.ajax({
-			url : servidor+ muda,
-			type : 'PUT',
-			data : {
-				nome: Nome,
-				valor: Valor,
-				estoque: Estoque,
-				status: Status
-			},
-				success: criaTabela
-		});
-		$('#modal').modal('hide');//FECHA MODAL
-		$("#alertaItemEditado").show();//MENSAGEM DE EDIÇÃO CONCLUIDA
-			mostraAlerta();
-	   }
-	});
-	$("#adiciona").click(function(){ //CHAMA O MODAL INICIAL DE ADICIONAR ITEM
-		$("#alertaCampoVazio, #alertaProdutoExiste, #deleta, #edita").hide();
-		$("#modal").modal();
-		$("#confirma, #cancela, #corpoModal").show();
-		limparcampo();//CHAMA O MODAL VAZIO
-	});
+	
 	
 }
 
