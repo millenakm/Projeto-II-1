@@ -15,12 +15,7 @@ th{
 
 	margin-top: 3%;
 }
-#ativos{
-	cursor: pointer;
-	font-size: 20px;
-}
-
-#inativos{
+#botaoAtivo, #botaoInativo{
 	cursor: pointer;
 	font-size: 20px;
 }

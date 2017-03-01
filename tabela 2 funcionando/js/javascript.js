@@ -1,5 +1,5 @@
 var servidor="http://192.168.1.172:3000/product/";
-var dados, id;
+var dados;
 var troca=0;
 var dele=0;
 var naorepete=0;
@@ -12,39 +12,48 @@ function dadosModal(){//SALVA OS DADOS ESCRITOS NO MODAL
 }
 
 function linhasTabela(id, nome, valor, estoque, status, i){
-	var linhas = '<tr><td>'+id+'</td><td>'+nome+'</td><td>'+'R$ '+valor+' '+'</td><td>'+status+'</td><td>'+estoque+'</td><td>'+'<button type="button" onclick= "botaoEditaTab('+i+')" data-toggle="modal" data-target="#modal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button" onclick= "botaoDeletaTab('+id+')" data-toggle="modal" data-target="#modal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>';
+	var linhas = '<tr><td>'+id+'</td><td>'+nome+'</td><td>'+'R$ '+valor+' '+'</td><td><span class="glyphicon glyphicon-thumbs-'+status+'"></span></td><td>'+estoque+'</td><td>'+'<button type="button" onclick= "botaoEditaTab('+i+')" data-toggle="modal" data-target="#modal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button" onclick= "botaoDeletaTab('+id+')" data-toggle="modal" data-target="#modal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>';
 	return linhas;
 }
 
 function criaTabela(){//PRINTA E ARRUMA O VALOR
+	var statusBotao = checaStatusPagina();
 	$('#tabelaProdutos').empty(); //Limpando a tabela
 	$.get(servidor, function(data) {
 		dados = data;
 		for(var i=0;i<dados.length;i++){
-			id= dados[i].id;
+			var id= dados[i].id;
 			var valor = valorTabela(dados[i].valor);
-			var ativoIcon = '<span class="glyphicon glyphicon-thumbs-up"></span>';
-			var inativoIcon = '<span class="glyphicon glyphicon-thumbs-down"></span>';
-			if (troca==0) {
-				if(dados[i].status == "A"){
-					var linhas = linhasTabela(dados[i].id, dados[i].nome, valor, dados[i].estoque, ativoIcon, i);
-				}  
-			}
-			else{
-				if(dados[i].status == "I"){
-					var linhas = linhasTabela(dados[i].id, dados[i].nome, valor, dados[i].estoque, inativoIcon, i);
-				}
+			var status = iconeStatus(data[i].status);
+			if(dados[i].status == statusBotao){
+				var linhas = linhasTabela(dados[i].id, dados[i].nome, valor, dados[i].estoque, status, i);
+				$('#tabelaProdutos').append(linhas);
 			}  
-			$('#tabelaProdutos').append(linhas);
 		}
 	});
 }
 
-function valorTabela(valor){
-	var n = valor.toString();
-	n = parseFloat(n).toFixed(2)
-	n = n.replace(".", ",");
-	return n;
+function iconeStatus(statusItem){
+	switch(statusItem){
+		case "A":
+			var icone = 'up';
+			break;
+		case "I":
+			var icone = 'down';
+			break;
+	}return icone;
+}
+
+function valorTabela(valorNum){
+	var valorString = valorNum.toString();
+	valorString = parseFloat(valorString).toFixed(2)
+	valorString = valorString.replace(".", ",");
+	return valorString;
+}
+
+function checaStatusPagina(){
+	var statusBotao = $("#dropdownStatus").data("status");
+	return statusBotao;
 }
 
 function Login(){//IDENTIFICAÇÃO DE LOGIN
@@ -173,13 +182,9 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 		deletaItem();
 	});
 
-	$("#inativos").click(function(){//ABRE ITENS INATIVOS
-		troca = 400;
-		criaTabela();
-	});
-
-	$("#ativos").click(function(){//ABRE ITENS ATIVOS
-		troca = 0;
+	$("#botaoAtivo, #botaoInativo").click(function(){//ABRE ITENS INATIVOS
+		var status = $(this).data("status");
+		var dropdownStatus = $("#dropdownStatus").data("status", status);
 		criaTabela();
 	});
 
