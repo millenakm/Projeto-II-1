@@ -1,6 +1,5 @@
 var servidor="http://192.168.1.172:3000/product/";
 var dados;
-var troca=0;
 var dele=0;
 var naorepete=0;
 
@@ -77,13 +76,23 @@ function botaoDeletaTab(v){//FUNÇÃO QUE É CHAMADA
 	tituloModal();
 	}
 
+function jsonAjax(id, tipo, nome, valor, estoque, status){
+	var dados ={
+		url : servidor+id,
+		type : tipo,
+		data : {
+			nome: nome,
+			valor: valor,
+			estoque: estoque,
+			status: status
+		},
+		success: criaTabela
+	};return dados;	
+}
+
 function deletaItem(){
-	var del = {
-		type: 'DELETE',
-		url: servidor+ dele,
-		success: criaTabela //SE TIVER SUCESSO, VAI LIMPAR A TABELA E PRINTAR NOVAMENTE
-	}
-	$.ajax(del);
+	var dados = jsonAjax(dele, 'DELETE', '', '', '', '');
+	$.ajax(dados);
 	$('#modal').modal('hide');
 }
 
@@ -115,19 +124,13 @@ function tituloModal(){//SELECIONA O tituloModal A PARTIR DO VALOR
 	}
 }
 
-function verificaNumeroEstoque(e){ //BLOQUEIA LETRAS NO ESTOQUE
+function bloqueiaLetras(e){ //BLOQUEIA LETRAS NO ESTOQUE
 	if ((e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) || e.which ==32 )   {
 		 return false;
 	}
 }
 
-function verificaNumerosValor(e){ //BLOQUEIA LETRAS NO VALOR
-	if ((e.which != 8 && e.which != 0 && (e.which < 46 || e.which > 57)) || e.which ==47) {
-		 return false;
-	}
-}
-
-function Bloqueianumeros(e){ //BLOQUEIA NUMEROS NO NOME
+function bloqueiaNumeros(e){ //BLOQUEIA NUMEROS NO NOME
 	if ((e.which != 8 && e.which != 0 && (e.which < 65 || e.which > 126)) || (e.which>=123 && e.which<=125) || e.which==20 ) {
 		 return false;
 	}
@@ -166,26 +169,30 @@ function mostraAlerta(){
 }
 
 function actions(){//FUNÇÕES DE BOTÕES E INPUT
+	$("#valor").maskMoney({decimal:".", thousands:"", million:"."});
+	$("#botaoAtivo, #botaoInativo").click(function(){//ABRE ITENS INATIVOS
+		$("#dropdownStatus").data("status", $(this).data("status"));
+		criaTabela();
+	});
+	$("#estoque").keypress(bloqueiaLetras);
+	$("#nome").keypress(bloqueiaNumeros);
+	$("#nome, #valor, #estoque").on("drop paste", function(e){
+		e.preventDefault();
+	});
+
+
+
 	$("#alertaItemAdicionado, #alertaItemEditado").hide();
 
-	$("#estoque").keypress(verificaNumeroEstoque);
-	$("#nome").keypress(Bloqueianumeros);
-	$("#valor").keypress(verificaNumerosValor);
+
 
 	$("#loga").click(function(){
 		Login();
 	});
-	$("#valor").maskMoney({decimal:".", thousands:"", million:"." //MASCARA DE DINHEIRO
-	});
+	
 
 	$("#deleta").click(function(){ //DELETA OS DADOS DEFINITIVAMENTE
 		deletaItem();
-	});
-
-	$("#botaoAtivo, #botaoInativo").click(function(){//ABRE ITENS INATIVOS
-		var status = $(this).data("status");
-		var dropdownStatus = $("#dropdownStatus").data("status", status);
-		criaTabela();
 	});
 
 	$("#adiciona").click(function(){ //ABRE O MODAL
@@ -232,9 +239,7 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 		$("#confirma, #cancela, #corpoModal").show();
 		limparcampo();//CHAMA O MODAL VAZIO
 	});
-	$("#nome, #valor, #estoque").on("drop, paste", function(e){
-		e.preventDefault();
-	});
+	
 }
 
 $(document).ready(function(){//O QUE DEVE SER EXECUTADO AO INICIAR A PAGINA
