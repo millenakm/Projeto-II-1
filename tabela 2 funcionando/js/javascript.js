@@ -11,7 +11,7 @@ function dadosModal(){//SALVA OS DADOS ESCRITOS NO MODAL
 }
 
 function linhasTabela(id, nome, valor, estoque, status, i){
-	var linhas = '<tr><td>'+id+'</td><td>'+nome+'</td><td>'+'R$ '+valor+' '+'</td><td><span class="glyphicon glyphicon-thumbs-'+status+'"></span></td><td>'+estoque+'</td><td>'+'<button type="button" onclick= "botaoEditaTab('+i+')" data-toggle="modal" data-target="#modal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button" onclick= "botaoDeletaTab('+id+')" data-toggle="modal" data-target="#modal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>';
+	var linhas = '<tr><td>'+id+'</td><td>'+nome+'</td><td>'+'R$ '+valor+' '+'</td><td><span class="glyphicon glyphicon-thumbs-'+status+'"></span></td><td>'+estoque+'</td><td>'+'<button type="button" onclick= "modalEditar('+i+')" data-toggle="modal" data-target="#modal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button" onclick= "modalDeletar('+id+')" data-toggle="modal" data-target="#modal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>';
 	return linhas;
 }
 
@@ -55,27 +55,6 @@ function checaStatusPagina(){
 	return statusBotao;
 }
 
-function Login(){//IDENTIFICAÇÃO DE LOGIN
-var done=0;
-var username=document.login.username.value;
-username=username.toLowerCase();
-var password=document.login.password.value;
-password=password.toLowerCase();
-if (username=="bianca" && password=="senha") { window.location="file:///D:/Github/Projeto-II/tabela%202%20funcionando/mercadodobruno2.html"; done=1; }
-if (username=="outro" && password=="outrosenha") { window.location="file:///D:/Github/Projeto-II/tabela%202%20funcionando/mercadodobruno2.html"; done=1; }
-if (username=="outro" && password=="outrasenha") { window.location="file:///D:/Github/Projeto-II/tabela%202%20funcionando/mercadodobruno2.html"; done=1; }
-if (done==0) { alert("Senha ou Usuário inválido."); }
-}
-
-
-function botaoDeletaTab(v){//FUNÇÃO QUE É CHAMADA 
-	dele = v; //ID DO PRODUTO SALVO AQUI
-	$("#confirma, #edita, #alertaCampoVazio, #alertaProdutoExiste, #cancela, #corpoModal").hide();
-	$("#deleta").show();
-	alteranome = 2;
-	tituloModal();
-	}
-
 function jsonAjax(id, tipo, nome, valor, estoque, status){
 	var dados ={
 		url : servidor+id,
@@ -86,21 +65,28 @@ function jsonAjax(id, tipo, nome, valor, estoque, status){
 			estoque: estoque,
 			status: status
 		},
-		success: criaTabela
+		success: function(){
+			criaTabela();
+			$('#modal').modal('hide');
+		}
 	};return dados;	
 }
 
-function deletaItem(){
-	var dados = jsonAjax(dele, 'DELETE', '', '', '', '');
+function deletaItem(id){
+	var dados = jsonAjax(id, 'DELETE', '', '', '', '');
 	$.ajax(dados);
-	$('#modal').modal('hide');
+}
+function modalDeletar(id){//FUNÇÃO QUE É CHAMADA
+	$("#confirma, #edita, #alertaCampoVazio, #alertaProdutoExiste, #cancela, #corpoModal").hide();
+	$("#deleta").show().data("id", id);
+	tituloModal("  Tem certeza que deseja deletar?");
 }
 
- function botaoEditaTab(o){//FUNÇÃO PARA EDITAR
+
+function modalEditar(o){//FUNÇÃO PARA EDITAR
 	$("#confirma, #deleta, #alertaProdutoExiste, #alertaCampoVazio").hide();
 	$("#edita, #cancela, #corpoModal").show();
-	alteranome = 1;
-	tituloModal();
+	tituloModal("  Editar Itens");
 	$('#nome').val(dados[o].nome);//PEGA AS INFORMAÇÕES EXISTENTES
 	$('#valor').val(dados[o].valor);
 	$('#status').val(dados[o].status);
@@ -114,14 +100,8 @@ function limparcampo(){//O MODAL INICIA VAZIO
 	$('#estoque').val("");
  }
 
-function tituloModal(){//SELECIONA O tituloModal A PARTIR DO VALOR
-	if(alteranome==0){
-		$('#tituloModal').html("  Adicionar Itens");
-	}else if(alteranome==1){
-		$('#tituloModal').html("  Editar Itens");
-	}else{
-		$('#tituloModal').html("  Tem certeza que deseja deletar?");
-	}
+function tituloModal(titulo){//SELECIONA O tituloModal A PARTIR DO VALOR
+	$('#tituloModal').html(titulo);
 }
 
 function bloqueiaLetras(e){ //BLOQUEIA LETRAS NO ESTOQUE
@@ -179,6 +159,10 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 	$("#nome, #valor, #estoque").on("drop paste", function(e){
 		e.preventDefault();
 	});
+	$("#deleta").click(function(){ //DELETA OS DADOS DEFINITIVAMENTE
+		var id = $(this).data("id");
+		deletaItem(id);
+	});
 
 
 
@@ -189,15 +173,9 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 	$("#loga").click(function(){
 		Login();
 	});
-	
-
-	$("#deleta").click(function(){ //DELETA OS DADOS DEFINITIVAMENTE
-		deletaItem();
-	});
 
 	$("#adiciona").click(function(){ //ABRE O MODAL
-		alteranome = 0;
-		tituloModal();
+		tituloModal("  Adicionar Itens");
 	});
 	$('#confirma').click(function(){
 		dadosModal();//PUXA DADOS DIGITADOS NO MODAL
@@ -240,6 +218,18 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 		limparcampo();//CHAMA O MODAL VAZIO
 	});
 	
+}
+
+function Login(){//IDENTIFICAÇÃO DE LOGIN
+	var done=0;
+	var username=document.login.username.value;
+	username=username.toLowerCase();
+	var password=document.login.password.value;
+	password=password.toLowerCase();
+	if (username=="bianca" && password=="senha") { window.location="file:///D:/Github/Projeto-II/tabela%202%20funcionando/mercadodobruno2.html"; done=1; }
+	if (username=="outro" && password=="outrosenha") { window.location="file:///D:/Github/Projeto-II/tabela%202%20funcionando/mercadodobruno2.html"; done=1; }
+	if (username=="outro" && password=="outrasenha") { window.location="file:///D:/Github/Projeto-II/tabela%202%20funcionando/mercadodobruno2.html"; done=1; }
+	if (done==0) { alert("Senha ou Usuário inválido."); }
 }
 
 $(document).ready(function(){//O QUE DEVE SER EXECUTADO AO INICIAR A PAGINA
