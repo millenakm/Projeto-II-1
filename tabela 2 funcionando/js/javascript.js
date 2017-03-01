@@ -1,7 +1,5 @@
 var servidor="http://192.168.1.172:3000/product/";
 var dados;
-var dele=0;
-var naorepete=0;
 
 function linhasTabela(id, nome, valor, estoque, status, i){
 	var linhas = '<tr><td>'+id+'</td><td>'+nome+'</td><td>'+'R$ '+valor+' '+'</td><td><span class="glyphicon glyphicon-thumbs-'+status+'"></span></td><td>'+estoque+'</td><td>'+'<button type="button" onclick= "inputsModalEditar('+i+')" data-toggle="modal" data-target="#modal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>'+ '</td><td>'+'<button type="button" onclick= "modalDeletar('+id+')" data-toggle="modal" data-target="#modal" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>' +'</td></tr>';
@@ -155,11 +153,7 @@ function checaNome(nomeInput){
 		}
 	}
 	console.log(flagNome);
-	// return flagNome;//CHAMA FUNÇÃO QUE VERIFICA NOME IGUAL
-}
-
-function nomeIgual(){
-		
+	return flagNome;//CHAMA FUNÇÃO QUE VERIFICA NOME IGUAL
 }
 
 function tituloModal(titulo){//SELECIONA O tituloModal A PARTIR DO VALOR
@@ -211,20 +205,10 @@ function actions(){//FUNÇÕES DE BOTÕES E INPUT
 	$('#confirma').click(function(){
 		dadosModal("adiciona");//PUXA DADOS DIGITADOS NO MODAL
 	});
-
-
-
-
 	$("#alertaItemAdicionado, #alertaItemEditado").hide();
-
-
-
 	$("#loga").click(function(){
 		Login();
-	});
-
-	
-	
+	});	
 }
 
 function Login(){//IDENTIFICAÇÃO DE LOGIN
